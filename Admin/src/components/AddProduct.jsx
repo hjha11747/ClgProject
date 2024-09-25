@@ -1,18 +1,18 @@
-import React ,{useState} from 'react'
+import React, { useState } from 'react'
 import upload_area from '../assets/upload_area.svg'
-import {MdAdd} from 'react-icons/md'
+import { MdAdd } from 'react-icons/md'
 
 const AddProduct = () => {
 
-    const[image, setImage] =useState(false);
-    const[productDetails, setProductDetails] =useState({
-        name:"",
-        image:"",
-        category:"women",
-        new_price:"",
-        old_price:""
+    const [image, setImage] = useState(false);
+    const [productDetails, setProductDetails] = useState({
+        name: "",
+        image: "",
+        category: "women",
+        new_price: "",
+        old_price: ""
     })
-    
+
     const imageHandler = (e) => {
         setImage(e.target.files[0]);
     }
@@ -24,34 +24,35 @@ const AddProduct = () => {
         }));
     }
 
-    const AddProduct = async() =>
-    {
+    const AddProduct = async () => {
         let responseData;
-        let product =productDetails;
+        let product = productDetails;
+
+        product.new_price = product.new_price.replace(/[^\d.-]/g, '');
+        product.old_price = product.old_price.replace(/[^\d.-]/g, '');
 
         let formData = new FormData();
-        formData.append('product' , image);
+        formData.append('product', image);
 
-        await fetch('http://localhost:4000/upload',{
-            method:'POST',
-            headers:{
-                Accept:'application/json',
+        await fetch('http://localhost:4000/upload', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
             },
-            body:formData,
-        }).then((resp)=> resp.json()).then((data)=>{responseData=data})
+            body: formData,
+        }).then((resp) => resp.json()).then((data) => { responseData = data })
 
-        if(responseData.success)
-        {
-            product.image =responseData.image_url;
-            await fetch('http://localhost:4000/addproduct',{
-                method:'POST',
-                headers:{
-                    Accept:'application/json',
-                    'Content-Type':'application/json',
+        if (responseData.success) {
+            product.image = responseData.image_url;
+            await fetch('http://localhost:4000/addproduct', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
                 },
-                body:JSON.stringify(product),
-            }).then((resp)=>resp.json()).then((data)=>{
-                data.success?alert('Product Added'):alert("Failed")
+                body: JSON.stringify(product),
+            }).then((resp) => resp.json()).then((data) => {
+                data.success ? alert('Product Added') : alert("Failed")
             })
         }
     }
@@ -64,27 +65,27 @@ const AddProduct = () => {
             </div>
             <div className='mb-3'>
                 <h4 className='bold-18 pb-2'>Price:</h4>
-                <input value={productDetails.old_price} onChange={changeHandler}  type="text" name='old_price' placeholder='Type here...' className='bg-primary outline-none max-w-80 w-full py-3 px-4 rounded-md' />
+                <input value={productDetails.old_price} onChange={changeHandler} type="text" name='old_price' placeholder='Type here...' className='bg-primary outline-none max-w-80 w-full py-3 px-4 rounded-md' />
             </div>
             <div className='mb-3'>
                 <h4 className='bold-18 pb-2'>Offer Price:</h4>
-                <input value={productDetails.new_price} onChange={changeHandler}  type="text" name='new_price' placeholder='Type here...' className='bg-primary outline-none max-w-80 w-full py-3 px-4 rounded-md' />
+                <input value={productDetails.new_price} onChange={changeHandler} type="text" name='new_price' placeholder='Type here...' className='bg-primary outline-none max-w-80 w-full py-3 px-4 rounded-md' />
             </div>
             <div className='flex items-center gap-x-4'>
                 <h4 className='bold-18 pb-2'>Product category:</h4>
-                <select value={productDetails.category} onChange={changeHandler}  name="category" id="" className='bg-primary ring-1 ring-slate-900/20 medium-16 rounded-sm outline-none '>
-                    <option value="women">women</option>
-                    <option value="men">men</option>
-                    <option value="kid">kid</option>
+                <select value={productDetails.category} onChange={changeHandler} name="category" id="" className='bg-primary ring-1 ring-slate-900/20 medium-16 rounded-sm outline-none '>
+                    <option value="women">Seeds</option>
+                    <option value="men">Fertilizers</option>
+                    <option value="kid">Tools</option>
                 </select>
             </div>
             <div>
                 <label htmlFor="file-input">
-                    <img src={image?URL.createObjectURL(image):upload_area} alt="" className='w-20 rounded-sm inline-block'/>
+                    <img src={image ? URL.createObjectURL(image) : upload_area} alt="" className='w-20 rounded-sm inline-block' />
                 </label>
                 <input onChange={imageHandler} type="file" name='image' id='file-input' hidden className='bg-primary max-w-80 py-3 px-4' />
             </div>
-            <button onClick={() => AddProduct() } className='btn_dark_rounded flexCenter gapx-1 mt-4'> <MdAdd /> Add Product</button>
+            <button onClick={() => AddProduct()} className='btn_dark_rounded flexCenter gapx-1 mt-4'> <MdAdd /> Add Product</button>
         </div>
     )
 }

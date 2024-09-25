@@ -1,4 +1,4 @@
-import React ,{useState} from 'react'
+import React ,{useState,useEffect} from 'react'
 
 const Login = () => {
 
@@ -9,6 +9,10 @@ const Login = () => {
     email: '',
     password: ''
   });
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+}, []);
 
   const changeHandler = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });

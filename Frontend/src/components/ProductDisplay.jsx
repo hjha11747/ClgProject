@@ -38,13 +38,13 @@ const ProductDisplay = (props) => {
                     </div>
 
                     <div className='flex gap-x-6 medium-20 my-4'>
-                        <div className='line-through'>${product.old_price}</div>
-                        <div className='text-secondary '>${product.new_price}</div>
+                        <div className='line-through'>₹{product.old_price}</div>
+                        <div className='text-secondary '>₹{product.new_price}</div>
                     </div>
                     <div className='mb-4'>
                         <h4 className='bold-16'>Select Size:</h4>
                         <div className='flex gap-3 my-3'>
-                            {['S', 'M', 'L', 'XL'].map((size) => (
+                            {['1kg', '5kg', '10kg', '50kg'].map((size) => (
                                 <div
                                     key={size}
                                     className={`ring-2 ring-slate-900 rounded-xl h-10 w-10 flexCenter cursor-pointer ${selectedSize === size ? 'bg-black text-white' : ''}`}
