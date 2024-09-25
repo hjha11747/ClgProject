@@ -14,7 +14,7 @@ const Category = ({ category, banner }) => {
   }, [category]);
 
   useEffect(() => {
-    fetch('http://localhost:4000/allproducts')
+    fetch('https://clgproject.onrender.com/allproducts')
       .then((response) => response.json())
       .then((data) => setAllProducts(data));
   }, []);
